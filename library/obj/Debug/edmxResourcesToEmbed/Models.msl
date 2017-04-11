@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelsStoreContainer" CdmEntityContainer="ModelsContainer">
+    <EntitySetMapping Name="ReaderSet">
+      <EntityTypeMapping TypeName="IsTypeOf(library.Models.Reader)">
+        <MappingFragment StoreEntitySet="ReaderSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookSet">
+      <EntityTypeMapping TypeName="IsTypeOf(library.Models.Book)">
+        <MappingFragment StoreEntitySet="BookSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="total_count" ColumnName="total_count" />
+          <ScalarProperty Name="left_count" ColumnName="left_count" />
+          <ScalarProperty Name="knowledge_area" ColumnName="knowledge_area" />
+          <ScalarProperty Name="ReaderId" ColumnName="ReaderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReadingRoomSet">
+      <EntityTypeMapping TypeName="IsTypeOf(library.Models.ReadingRoom)">
+        <MappingFragment StoreEntitySet="ReadingRoomSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="knowledge_area" ColumnName="knowledge_area" />
+          <ScalarProperty Name="total_count" ColumnName="total_count" />
+          <ScalarProperty Name="left_count" ColumnName="left_count" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookDeliverySet">
+      <EntityTypeMapping TypeName="IsTypeOf(library.Models.BookDelivery)">
+        <MappingFragment StoreEntitySet="BookDeliverySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="reader" ColumnName="reader" />
+          <ScalarProperty Name="book" ColumnName="book" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="delvery_date" ColumnName="delvery_date" />
+          <ScalarProperty Name="return_date" ColumnName="return_date" />
+          <ScalarProperty Name="ReaderId" ColumnName="ReaderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VisitReadingRoomSet">
+      <EntityTypeMapping TypeName="IsTypeOf(library.Models.VisitReadingRoom)">
+        <MappingFragment StoreEntitySet="VisitReadingRoomSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="reader" ColumnName="reader" />
+          <ScalarProperty Name="knowledge_area" ColumnName="knowledge_area" />
+          <ScalarProperty Name="book" ColumnName="book" />
+          <ScalarProperty Name="visit_date" ColumnName="visit_date" />
+          <ScalarProperty Name="delvery_time" ColumnName="delvery_time" />
+          <ScalarProperty Name="return_time" ColumnName="return_time" />
+          <ScalarProperty Name="ReaderId" ColumnName="ReaderId" />
+          <ScalarProperty Name="ReadingRoomId" ColumnName="ReadingRoomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BookDeliveryBook" TypeName="library.Models.BookDeliveryBook" StoreEntitySet="BookDeliverySet">
+      <EndProperty Name="Book">
+        <ScalarProperty Name="Id" ColumnName="Book_Id" />
+      </EndProperty>
+      <EndProperty Name="BookDelivery">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

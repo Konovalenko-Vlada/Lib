@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="library.Models" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="ModelsContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ReaderSet" EntityType="library.Models.Reader" />
+    <EntitySet Name="BookSet" EntityType="library.Models.Book" />
+    <EntitySet Name="ReadingRoomSet" EntityType="library.Models.ReadingRoom" />
+    <EntitySet Name="BookDeliverySet" EntityType="library.Models.BookDelivery" />
+    <EntitySet Name="VisitReadingRoomSet" EntityType="library.Models.VisitReadingRoom" />
+    <AssociationSet Name="ReaderBookDelivery" Association="library.Models.ReaderBookDelivery">
+      <End Role="Reader" EntitySet="ReaderSet" />
+      <End Role="BookDelivery" EntitySet="BookDeliverySet" />
+    </AssociationSet>
+    <AssociationSet Name="BookDeliveryBook" Association="library.Models.BookDeliveryBook">
+      <End Role="BookDelivery" EntitySet="BookDeliverySet" />
+      <End Role="Book" EntitySet="BookSet" />
+    </AssociationSet>
+    <AssociationSet Name="ReaderVisitReadingRoom" Association="library.Models.ReaderVisitReadingRoom">
+      <End Role="Reader" EntitySet="ReaderSet" />
+      <End Role="VisitReadingRoom" EntitySet="VisitReadingRoomSet" />
+    </AssociationSet>
+    <AssociationSet Name="ReadingRoomVisitReadingRoom" Association="library.Models.ReadingRoomVisitReadingRoom">
+      <End Role="ReadingRoom" EntitySet="ReadingRoomSet" />
+      <End Role="VisitReadingRoom" EntitySet="VisitReadingRoomSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Reader">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="type" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BookDelivery" Relationship="library.Models.ReaderBookDelivery" FromRole="Reader" ToRole="BookDelivery" />
+    <NavigationProperty Name="VisitReadingRoom" Relationship="library.Models.ReaderVisitReadingRoom" FromRole="Reader" ToRole="VisitReadingRoom" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="total_count" Type="Int32" Nullable="false" />
+    <Property Name="left_count" Type="Int32" Nullable="false" />
+    <Property Name="knowledge_area" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ReaderId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BookDelivery" Relationship="library.Models.BookDeliveryBook" FromRole="Book" ToRole="BookDelivery" />
+  </EntityType>
+  <EntityType Name="ReadingRoom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="knowledge_area" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="total_count" Type="Int32" Nullable="false" />
+    <Property Name="left_count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="VisitReadingRoom" Relationship="library.Models.ReadingRoomVisitReadingRoom" FromRole="ReadingRoom" ToRole="VisitReadingRoom" />
+  </EntityType>
+  <EntityType Name="BookDelivery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="reader" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="book" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="count" Type="Int32" Nullable="false" />
+    <Property Name="delvery_date" Type="DateTime" Nullable="false" />
+    <Property Name="return_date" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Reader" Relationship="library.Models.ReaderBookDelivery" FromRole="BookDelivery" ToRole="Reader" />
+    <Property Name="ReaderId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Book" Relationship="library.Models.BookDeliveryBook" FromRole="BookDelivery" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="VisitReadingRoom">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="reader" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="knowledge_area" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="book" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="visit_date" Type="DateTime" Nullable="false" />
+    <Property Name="delvery_time" Type="Time" Nullable="false" />
+    <Property Name="return_time" Type="Time" Nullable="false" />
+    <NavigationProperty Name="Reader" Relationship="library.Models.ReaderVisitReadingRoom" FromRole="VisitReadingRoom" ToRole="Reader" />
+    <Property Name="ReaderId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ReadingRoom" Relationship="library.Models.ReadingRoomVisitReadingRoom" FromRole="VisitReadingRoom" ToRole="ReadingRoom" />
+    <Property Name="ReadingRoomId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="ReaderBookDelivery">
+    <End Type="library.Models.Reader" Role="Reader" Multiplicity="1" />
+    <End Type="library.Models.BookDelivery" Role="BookDelivery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookDelivery">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BookDeliveryBook">
+    <End Type="library.Models.BookDelivery" Role="BookDelivery" Multiplicity="*" />
+    <End Type="library.Models.Book" Role="Book" Multiplicity="1" />
+  </Association>
+  <Association Name="ReaderVisitReadingRoom">
+    <End Type="library.Models.Reader" Role="Reader" Multiplicity="1" />
+    <End Type="library.Models.VisitReadingRoom" Role="VisitReadingRoom" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VisitReadingRoom">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ReadingRoomVisitReadingRoom">
+    <End Type="library.Models.ReadingRoom" Role="ReadingRoom" Multiplicity="1" />
+    <End Type="library.Models.VisitReadingRoom" Role="VisitReadingRoom" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReadingRoom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VisitReadingRoom">
+        <PropertyRef Name="ReadingRoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

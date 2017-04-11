@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelsStoreContainer">
+    <EntitySet Name="ReaderSet" EntityType="Models.Store.ReaderSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BookSet" EntityType="Models.Store.BookSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReadingRoomSet" EntityType="Models.Store.ReadingRoomSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BookDeliverySet" EntityType="Models.Store.BookDeliverySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VisitReadingRoomSet" EntityType="Models.Store.VisitReadingRoomSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ReaderBookDelivery" Association="Models.Store.ReaderBookDelivery">
+      <End Role="Reader" EntitySet="ReaderSet" />
+      <End Role="BookDelivery" EntitySet="BookDeliverySet" />
+    </AssociationSet>
+    <AssociationSet Name="BookDeliveryBook" Association="Models.Store.BookDeliveryBook">
+      <End Role="BookDelivery" EntitySet="BookDeliverySet" />
+      <End Role="Book" EntitySet="BookSet" />
+    </AssociationSet>
+    <AssociationSet Name="ReaderVisitReadingRoom" Association="Models.Store.ReaderVisitReadingRoom">
+      <End Role="Reader" EntitySet="ReaderSet" />
+      <End Role="VisitReadingRoom" EntitySet="VisitReadingRoomSet" />
+    </AssociationSet>
+    <AssociationSet Name="ReadingRoomVisitReadingRoom" Association="Models.Store.ReadingRoomVisitReadingRoom">
+      <End Role="ReadingRoom" EntitySet="ReadingRoomSet" />
+      <End Role="VisitReadingRoom" EntitySet="VisitReadingRoomSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ReaderSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BookSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="total_count" Type="int" Nullable="false" />
+    <Property Name="left_count" Type="int" Nullable="false" />
+    <Property Name="knowledge_area" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ReaderId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReadingRoomSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="knowledge_area" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="total_count" Type="int" Nullable="false" />
+    <Property Name="left_count" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BookDeliverySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="reader" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="book" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="count" Type="int" Nullable="false" />
+    <Property Name="delvery_date" Type="datetime" Nullable="false" />
+    <Property Name="return_date" Type="datetime" Nullable="false" />
+    <Property Name="ReaderId" Type="int" Nullable="false" />
+    <Property Name="Book_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VisitReadingRoomSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="reader" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="knowledge_area" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="book" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="visit_date" Type="datetime" Nullable="false" />
+    <Property Name="delvery_time" Type="time" Nullable="false" />
+    <Property Name="return_time" Type="time" Nullable="false" />
+    <Property Name="ReaderId" Type="int" Nullable="false" />
+    <Property Name="ReadingRoomId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ReaderBookDelivery">
+    <End Role="Reader" Type="Models.Store.ReaderSet" Multiplicity="1" />
+    <End Role="BookDelivery" Type="Models.Store.BookDeliverySet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookDelivery">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BookDeliveryBook">
+    <End Role="BookDelivery" Type="Models.Store.BookDeliverySet" Multiplicity="*" />
+    <End Role="Book" Type="Models.Store.BookSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookDelivery">
+        <PropertyRef Name="Book_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ReaderVisitReadingRoom">
+    <End Role="Reader" Type="Models.Store.ReaderSet" Multiplicity="1" />
+    <End Role="VisitReadingRoom" Type="Models.Store.VisitReadingRoomSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VisitReadingRoom">
+        <PropertyRef Name="ReaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ReadingRoomVisitReadingRoom">
+    <End Role="ReadingRoom" Type="Models.Store.ReadingRoomSet" Multiplicity="1" />
+    <End Role="VisitReadingRoom" Type="Models.Store.VisitReadingRoomSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReadingRoom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VisitReadingRoom">
+        <PropertyRef Name="ReadingRoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
